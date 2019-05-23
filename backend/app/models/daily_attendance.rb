@@ -1,0 +1,2 @@
+class DailyAttendance < ApplicationRecord
+end
