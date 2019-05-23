@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "../backend": {
+    "/backend": {
       "target": "http://localhost:3001"
     }
   },
