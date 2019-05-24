@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+import Attendance from './Attendance';
 
 interface AttendanceType {
   [index: string]: string | number;
@@ -33,11 +34,7 @@ class Attendances extends React.Component<any, AttendanceState> {
     return (
       <div className="Attendances-container">
         {this.state.attendances.map(attendance => {
-          return (
-            <div className="Attendance-item" key={attendance.id}>
-              <p>{attendance.work_start}</p>
-            </div>
-          );
+          return <Attendance {...attendance} key={attendance.id} />;
         })}
       </div>
     );
