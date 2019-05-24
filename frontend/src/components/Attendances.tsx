@@ -11,7 +11,7 @@ class AttendancesContainer extends React.Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:3001/api/v1/attendances.json')
+      .get('http://localhost:3001/api/v1/daily_attendances.json')
       .then(response => {
         console.log(response);
         this.setState({
@@ -22,7 +22,7 @@ class AttendancesContainer extends React.Component {
   }
 
   render() {
-    return <div className="Attendances-container">Attendances</div>;
+    return <div className="Attendances-container">attendances</div>;
   }
 }
 
