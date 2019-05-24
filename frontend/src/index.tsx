@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import AttendancesContainer from './components/Attendances';
+import Attendances from './components/Attendances';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<AttendancesContainer />, document.getElementById(
+ReactDOM.render(<Attendances />, document.getElementById(
   'root',
 ) as HTMLElement);
 registerServiceWorker();

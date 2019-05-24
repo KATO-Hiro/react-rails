@@ -1,7 +1,15 @@
 import * as React from 'react';
 import axios from 'axios';
 
-class AttendancesContainer extends React.Component {
+interface AttendanceType {
+  [index: string]: string | number;
+}
+
+interface AttendanceState {
+  attendances: AttendanceType[];
+}
+
+class Attendances extends React.Component<any, AttendanceState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -22,8 +30,18 @@ class AttendancesContainer extends React.Component {
   }
 
   render() {
-    return <div className="Attendances-container">attendances</div>;
+    return (
+      <div className="Attendances-container">
+        {this.state.attendances.map(attendance => {
+          return (
+            <div className="Attendance-item" key={attendance.id}>
+              <p>{attendance.work_start}</p>
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 }
 
-export default AttendancesContainer;
+export default Attendances;
