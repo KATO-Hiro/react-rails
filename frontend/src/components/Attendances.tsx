@@ -1,5 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
+import NewAttendanceForm from './NewAttendanceForm';
+import Attendance from './Attendance';
 
 interface AttendanceType {
   [index: string]: string | number;
@@ -19,7 +21,7 @@ class Attendances extends React.Component<any, AttendanceState> {
 
   componentDidMount() {
     axios
-      .get('http://localhost:3001/api/v1/daily_attendances.json')
+      .get('http://localhost:3001/api/v1/daily_attendances')
       .then(response => {
         console.log(response);
         this.setState({
@@ -31,14 +33,13 @@ class Attendances extends React.Component<any, AttendanceState> {
 
   render() {
     return (
-      <div className="Attendances-container">
-        {this.state.attendances.map(attendance => {
-          return (
-            <div className="Attendance-item" key={attendance.id}>
-              <p>{attendance.work_start}</p>
-            </div>
-          );
-        })}
+      <div>
+        <NewAttendanceForm />
+        <div className="Attendances-container">
+          {this.state.attendances.map(attendance => {
+            return <Attendance {...attendance} key={attendance.id} />;
+          })}
+        </div>
       </div>
     );
   }
