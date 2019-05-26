@@ -45,7 +45,7 @@ module Api::V1
       end
 
       def attendance_params
-        params.require(:attendance)
+        params.require(:daily_attendance)
               .permit(
                 :date,
                 :work_start,
