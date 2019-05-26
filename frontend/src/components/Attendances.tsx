@@ -11,7 +11,7 @@ interface AttendanceState {
   attendances: AttendanceType[];
 }
 
-class Attendances extends React.Component<any, AttendanceState> {
+class Attendances extends React.Component<{}, AttendanceState> {
   constructor(props: any) {
     super(props);
     this.state = {

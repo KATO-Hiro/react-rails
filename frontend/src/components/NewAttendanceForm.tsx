@@ -5,7 +5,7 @@ interface NewAttendanceFormState {
   [index: string]: string;
 }
 
-class NewAttendanceForm extends React.Component<any, NewAttendanceFormState> {
+class NewAttendanceForm extends React.Component<{}, NewAttendanceFormState> {
   constructor(props: any) {
     super(props);
     this.state = {
