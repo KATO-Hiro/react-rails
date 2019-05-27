@@ -37,7 +37,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
         <NewAttendanceForm />
         <div className="Attendances-container">
           {this.state.attendances.map(attendance => {
-            return <Attendance {...attendance} key={attendance.id} />;
+            return <Attendance attendance={attendance} key={attendance.id} />;
           })}
         </div>
       </div>
