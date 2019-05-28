@@ -19,6 +19,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
     };
     this.addNewAttendance = this.addNewAttendance.bind(this);
     this.removeAttendance = this.removeAttendance.bind(this);
+    this.editAttendance = this.editAttendance.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +45,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
                 attendance={attendance}
                 key={attendance.id}
                 onRemoveAttendance={this.removeAttendance}
+                onEditAttendance={this.editAttendance}
               />
             );
           })}
@@ -76,6 +78,19 @@ class Attendances extends React.Component<{}, AttendanceState> {
         );
         console.log(response);
         this.setState({ attendances });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  private editAttendance = (attendance: AttendanceType) => {
+    axios
+      .put(`http://localhost:3001/api/v1/daily_attendances/${attendance.id}`, {
+        daily_attendance: attendance,
+      })
+      .then(response => {
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
