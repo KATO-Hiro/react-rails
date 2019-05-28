@@ -58,8 +58,9 @@ class Attendances extends React.Component<{}, AttendanceState> {
         daily_attendance: attendance,
       })
       .then(response => {
+        const attendances = [...this.state.attendances, response.data];
         console.log(response);
-        console.log(response.data);
+        this.setState({ attendances });
       })
       .catch(error => {
         console.log(error);
