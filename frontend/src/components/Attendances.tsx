@@ -17,7 +17,9 @@ class Attendances extends React.Component<{}, AttendanceState> {
     this.state = {
       attendances: [],
     };
+    this.addNewAttendance = this.addNewAttendance.bind(this);
     this.removeAttendance = this.removeAttendance.bind(this);
+    this.editAttendance = this.editAttendance.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +37,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
   render() {
     return (
       <div>
-        <NewAttendanceForm />
+        <NewAttendanceForm onAddNewAttendance={this.addNewAttendance} />
         <div className="Attendances-container">
           {this.state.attendances.map(attendance => {
             return (
@@ -43,6 +45,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
                 attendance={attendance}
                 key={attendance.id}
                 onRemoveAttendance={this.removeAttendance}
+                onEditAttendance={this.editAttendance}
               />
             );
           })}
@@ -50,6 +53,21 @@ class Attendances extends React.Component<{}, AttendanceState> {
       </div>
     );
   }
+
+  private addNewAttendance = (attendance: AttendanceType) => {
+    axios
+      .post('http://localhost:3001/api/v1/daily_attendances', {
+        daily_attendance: attendance,
+      })
+      .then(response => {
+        const attendances = [...this.state.attendances, response.data];
+        console.log(response);
+        this.setState({ attendances });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   private removeAttendance = (id: number) => {
     axios
@@ -60,6 +78,19 @@ class Attendances extends React.Component<{}, AttendanceState> {
         );
         console.log(response);
         this.setState({ attendances });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  private editAttendance = (attendance: AttendanceType) => {
+    axios
+      .put(`http://localhost:3001/api/v1/daily_attendances/${attendance.id}`, {
+        daily_attendance: attendance,
+      })
+      .then(response => {
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
