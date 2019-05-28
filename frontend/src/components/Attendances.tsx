@@ -17,6 +17,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
     this.state = {
       attendances: [],
     };
+    this.addNewAttendance = this.addNewAttendance.bind(this);
     this.removeAttendance = this.removeAttendance.bind(this);
   }
 
@@ -35,7 +36,7 @@ class Attendances extends React.Component<{}, AttendanceState> {
   render() {
     return (
       <div>
-        <NewAttendanceForm />
+        <NewAttendanceForm onAddNewAttendance={this.addNewAttendance} />
         <div className="Attendances-container">
           {this.state.attendances.map(attendance => {
             return (
@@ -50,6 +51,20 @@ class Attendances extends React.Component<{}, AttendanceState> {
       </div>
     );
   }
+
+  private addNewAttendance = (attendance: AttendanceType) => {
+    axios
+      .post('http://localhost:3001/api/v1/daily_attendances', {
+        daily_attendance: attendance,
+      })
+      .then(response => {
+        console.log(response);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   private removeAttendance = (id: number) => {
     axios

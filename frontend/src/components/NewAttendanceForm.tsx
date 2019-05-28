@@ -1,25 +1,42 @@
 import * as React from 'react';
-import axios from 'axios';
 
-interface NewAttendanceFormState {
-  [index: string]: string;
+interface AttendanceType {
+  [index: string]: string | number;
 }
 
-class NewAttendanceForm extends React.Component<{}, NewAttendanceFormState> {
-  constructor(props: {}) {
+interface NewAttendanceFormProps {
+  onAddNewAttendance: (attendance: AttendanceType) => void;
+}
+
+interface NewAttendanceFormState {
+  [index: string]: string | number;
+}
+
+class NewAttendanceForm extends React.Component<
+  NewAttendanceFormProps,
+  NewAttendanceFormState
+> {
+  constructor(props: NewAttendanceFormProps) {
     super(props);
     this.state = {
       date: '',
       work_start: '',
       work_finish: '',
       rest: '',
-      daily_wage: '',
+      daily_wage: 0,
     };
     this.onChangeText = this.onChangeText.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
   render() {
+    const newAttendance = {
+      date: this.state.date,
+      work_start: this.state.work_start,
+      work_finish: this.state.work_finish,
+      rest: this.state.rest,
+      daily_wage: this.state.daily_wage,
+    };
+
     return (
       <div>
         <form>
@@ -33,7 +50,10 @@ class NewAttendanceForm extends React.Component<{}, NewAttendanceFormState> {
           <input name="rest" type="text" onChange={this.onChangeText} />
           <label htmlFor="rest">日給</label>
           <input name="daily_wage" type="text" onChange={this.onChangeText} />
-          <button type="submit" onClick={this.onSubmit}>
+          <button
+            type="submit"
+            onClick={() => this.props.onAddNewAttendance(newAttendance)}
+          >
             送信
           </button>
         </form>
@@ -45,28 +65,6 @@ class NewAttendanceForm extends React.Component<{}, NewAttendanceFormState> {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value,
     });
-  }
-
-  private onSubmit() {
-    const newAttendance = {
-      date: this.state.date,
-      work_start: this.state.work_start,
-      work_finish: this.state.work_finish,
-      rest: this.state.rest,
-      daily_wage: this.state.daily_wage,
-    };
-
-    axios
-      .post('http://localhost:3001/api/v1/daily_attendances', {
-        daily_attendance: newAttendance,
-      })
-      .then(response => {
-        console.log(response);
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 }
 
