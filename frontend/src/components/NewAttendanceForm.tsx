@@ -6,7 +6,7 @@ interface NewAttendanceFormState {
 }
 
 class NewAttendanceForm extends React.Component<{}, NewAttendanceFormState> {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       date: '',

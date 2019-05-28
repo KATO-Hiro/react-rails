@@ -12,11 +12,12 @@ interface AttendanceState {
 }
 
 class Attendances extends React.Component<{}, AttendanceState> {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       attendances: [],
     };
+    this.removeAttendance = this.removeAttendance.bind(this);
   }
 
   componentDidMount() {
@@ -37,12 +38,33 @@ class Attendances extends React.Component<{}, AttendanceState> {
         <NewAttendanceForm />
         <div className="Attendances-container">
           {this.state.attendances.map(attendance => {
-            return <Attendance {...attendance} key={attendance.id} />;
+            return (
+              <Attendance
+                attendance={attendance}
+                key={attendance.id}
+                onRemoveAttendance={this.removeAttendance}
+              />
+            );
           })}
         </div>
       </div>
     );
   }
+
+  private removeAttendance = (id: number) => {
+    axios
+      .delete(`http://localhost:3001/api/v1/daily_attendances/${id}`)
+      .then(response => {
+        const attendances = this.state.attendances.filter(
+          attendance => attendance.id !== id,
+        );
+        console.log(response);
+        this.setState({ attendances });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 }
 
 export default Attendances;
