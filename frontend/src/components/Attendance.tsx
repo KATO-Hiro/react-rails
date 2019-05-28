@@ -1,11 +1,7 @@
 import * as React from 'react';
-
-interface AttendanceType {
-  [index: string]: string | number;
-}
-
 interface AttendanceProps {
-  attendance: AttendanceType;
+  attendance: { [index: string]: string | number };
+  onRemoveAttendance: (id: number | string) => void;
 }
 
 interface AttendanceState {
@@ -13,7 +9,7 @@ interface AttendanceState {
 }
 
 class Attendance extends React.Component<AttendanceProps, AttendanceState> {
-  constructor(props: any) {
+  constructor(props: AttendanceProps) {
     super(props);
     this.state = {
       date: this.props.attendance.date,
@@ -28,12 +24,20 @@ class Attendance extends React.Component<AttendanceProps, AttendanceState> {
     return (
       <div>
         <ul>
-          <li>日付: {this.props.attendance.date}</li>
-          <li>勤務開始時刻: {this.props.attendance.work_start}</li>
-          <li>勤務終了時刻: {this.props.attendance.work_finish}</li>
-          <li>休憩時間: {this.props.attendance.rest}</li>
-          <li>日給: {this.props.attendance.daily_wage}</li>
+          <li>日付: {this.state.date}</li>
+          <li>勤務開始時刻: {this.state.work_start}</li>
+          <li>勤務終了時刻: {this.state.work_finish}</li>
+          <li>休憩時間: {this.state.rest}</li>
+          <li>日給: {this.state.daily_wage}</li>
         </ul>
+        <button
+          type="submit"
+          onClick={() =>
+            this.props.onRemoveAttendance(this.props.attendance.id)
+          }
+        >
+          削除
+        </button>
       </div>
     );
   }
