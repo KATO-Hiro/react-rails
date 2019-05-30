@@ -22,16 +22,20 @@ class Attendances extends React.Component<{}, AttendanceState> {
     this.editAttendance = this.editAttendance.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .get('http://localhost:3001/api/v1/daily_attendances')
-      .then(response => {
-        console.log(response);
-        this.setState({
-          attendances: response.data,
-        });
-      })
-      .catch(error => console.log(error));
+  async componentDidMount() {
+    try {
+      console.log('Loading ...');
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await axios.get(
+        'http://localhost:3001/api/v1/daily_attendances',
+      );
+      console.log(response);
+      this.setState({
+        attendances: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
