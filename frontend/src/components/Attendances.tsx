@@ -22,16 +22,20 @@ class Attendances extends React.Component<{}, AttendanceState> {
     this.editAttendance = this.editAttendance.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .get('http://localhost:3001/api/v1/daily_attendances')
-      .then(response => {
-        console.log(response);
-        this.setState({
-          attendances: response.data,
-        });
-      })
-      .catch(error => console.log(error));
+  async componentDidMount() {
+    try {
+      console.log('Loading ...');
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const response = await axios.get(
+        'http://localhost:3001/api/v1/daily_attendances',
+      );
+      console.log(response);
+      this.setState({
+        attendances: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -54,47 +58,49 @@ class Attendances extends React.Component<{}, AttendanceState> {
     );
   }
 
-  private addNewAttendance = (attendance: AttendanceType) => {
-    axios
-      .post('http://localhost:3001/api/v1/daily_attendances', {
-        daily_attendance: attendance,
-      })
-      .then(response => {
-        const attendances = [...this.state.attendances, response.data];
-        console.log(response);
-        this.setState({ attendances });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private addNewAttendance = async (attendance: AttendanceType) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/v1/daily_attendances',
+        {
+          daily_attendance: attendance,
+        },
+      );
+      const attendances = [...this.state.attendances, response.data];
+      console.log(response);
+      this.setState({ attendances });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  private removeAttendance = (id: number) => {
-    axios
-      .delete(`http://localhost:3001/api/v1/daily_attendances/${id}`)
-      .then(response => {
-        const attendances = this.state.attendances.filter(
-          attendance => attendance.id !== id,
-        );
-        console.log(response);
-        this.setState({ attendances });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private removeAttendance = async (id: number) => {
+    try {
+      const response = axios.delete(
+        `http://localhost:3001/api/v1/daily_attendances/${id}`,
+      );
+      const attendances = this.state.attendances.filter(
+        attendance => attendance.id !== id,
+      );
+      console.log(response);
+      this.setState({ attendances });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  private editAttendance = (attendance: AttendanceType) => {
-    axios
-      .put(`http://localhost:3001/api/v1/daily_attendances/${attendance.id}`, {
-        daily_attendance: attendance,
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private editAttendance = async (attendance: AttendanceType) => {
+    try {
+      const response = axios.put(
+        `http://localhost:3001/api/v1/daily_attendances/${attendance.id}`,
+        {
+          daily_attendance: attendance,
+        },
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
