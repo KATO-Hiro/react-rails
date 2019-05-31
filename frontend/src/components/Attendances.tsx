@@ -89,17 +89,18 @@ class Attendances extends React.Component<{}, AttendanceState> {
     }
   };
 
-  private editAttendance = (attendance: AttendanceType) => {
-    axios
-      .put(`http://localhost:3001/api/v1/daily_attendances/${attendance.id}`, {
-        daily_attendance: attendance,
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private editAttendance = async (attendance: AttendanceType) => {
+    try {
+      const response = axios.put(
+        `http://localhost:3001/api/v1/daily_attendances/${attendance.id}`,
+        {
+          daily_attendance: attendance,
+        },
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
