@@ -74,19 +74,19 @@ class Attendances extends React.Component<{}, AttendanceState> {
     }
   };
 
-  private removeAttendance = (id: number) => {
-    axios
-      .delete(`http://localhost:3001/api/v1/daily_attendances/${id}`)
-      .then(response => {
-        const attendances = this.state.attendances.filter(
-          attendance => attendance.id !== id,
-        );
-        console.log(response);
-        this.setState({ attendances });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private removeAttendance = async (id: number) => {
+    try {
+      const response = axios.delete(
+        `http://localhost:3001/api/v1/daily_attendances/${id}`,
+      );
+      const attendances = this.state.attendances.filter(
+        attendance => attendance.id !== id,
+      );
+      console.log(response);
+      this.setState({ attendances });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   private editAttendance = (attendance: AttendanceType) => {
