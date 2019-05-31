@@ -58,19 +58,20 @@ class Attendances extends React.Component<{}, AttendanceState> {
     );
   }
 
-  private addNewAttendance = (attendance: AttendanceType) => {
-    axios
-      .post('http://localhost:3001/api/v1/daily_attendances', {
-        daily_attendance: attendance,
-      })
-      .then(response => {
-        const attendances = [...this.state.attendances, response.data];
-        console.log(response);
-        this.setState({ attendances });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  private addNewAttendance = async (attendance: AttendanceType) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/v1/daily_attendances',
+        {
+          daily_attendance: attendance,
+        },
+      );
+      const attendances = [...this.state.attendances, response.data];
+      console.log(response);
+      this.setState({ attendances });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   private removeAttendance = (id: number) => {
